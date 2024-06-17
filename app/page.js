@@ -27,7 +27,6 @@ export default function Home() {
           <h2>
             Moogle Search <span>-&gt;</span>
           </h2>
-          <br/>
           <p>Check out a FFXIV multilingual search engine.</p>
         </a>
 
