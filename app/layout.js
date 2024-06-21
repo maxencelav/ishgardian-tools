@@ -1,7 +1,22 @@
-import { Inter } from "next/font/google";
+import { Michroma, M_PLUS_2, Cinzel } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+// Large width font (Item level, numbers, etc.)
+const michroma = Michroma({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-michroma",
+});
+// Header font (Dungeon names, etc.)
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  variable: "--font-cinzel",
+});
+// Body font (Everything else)
+const mplus2 = M_PLUS_2({
+  subsets: ["latin","latin-ext"],
+  variable: "--font-mplus",
+});
 
 export const metadata = {
   title: "Ishgardian Tools",
@@ -11,7 +26,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${mplus2.variable} ${cinzel.variable} ${michroma.variable}`}>
+        {children}
+      </body>
     </html>
   );
 }
