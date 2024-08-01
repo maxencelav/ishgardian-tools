@@ -2,7 +2,6 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 // import { toast } from 'react-hot-toast';
 
-
 export function ItemCard({ id, item, currentLanguage, languageList }) {
   /* Gather info based on the item ID using https://xivapi.com/item/id */
   // https://beta.xivapi.com/api/1/search?sheets=Item&query=%2BLevelItem%3E710%20%2BClassJobCategory.PCT=true
@@ -15,7 +14,14 @@ export function ItemCard({ id, item, currentLanguage, languageList }) {
   useEffect(() => {
     // declare the data fetching function
     const getInfo = async () => {
-      const response = await fetch("https://beta.xivapi.com/api/1/sheet/Item/" + id);
+      const response = await fetch(
+        "https://beta.xivapi.com/api/1/sheet/Item/" + id,
+        {
+          headers: {
+            "User-Agent": "IshgardianTools"
+          }
+        }
+      );
       const data = await response.json();
       setadditionalInfo(data);
     };
@@ -26,24 +32,27 @@ export function ItemCard({ id, item, currentLanguage, languageList }) {
     });
   }, [id]);
 
-
-  function ClickToCopy({className, text}) {
-    return (<span className={className} onClick={() => {
-      navigator.clipboard.writeText(text)
-      // toast
-      // toast.success(`Copied ${text} to your clipboard.`, {
-      //   position: "bottom-left",
-      //   autoClose: 2000,
-      //   hideProgressBar: true,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      // });
-    }}>
-      {text}
-    </span>)
+  function ClickToCopy({ className, text }) {
+    return (
+      <span
+        className={className}
+        onClick={() => {
+          navigator.clipboard.writeText(text);
+          // toast
+          // toast.success(`Copied ${text} to your clipboard.`, {
+          //   position: "bottom-left",
+          //   autoClose: 2000,
+          //   hideProgressBar: true,
+          //   closeOnClick: true,
+          //   pauseOnHover: true,
+          //   draggable: true,
+          // });
+        }}
+      >
+        {text}
+      </span>
+    );
   }
-
 
   function languageListing(language) {
     return (
@@ -51,7 +60,10 @@ export function ItemCard({ id, item, currentLanguage, languageList }) {
         <span className="bg-zinc-100 text-zinc-800 text-xs font-medium inline-block text-center w-5 mr-2 py-0.5 rounded dark:bg-zinc-700 dark:text-zinc-300 select-none">
           {language.toUpperCase().charAt(0)}
         </span>
-        <ClickToCopy className="hover:underline cursor-pointer" text={item[language]} />        
+        <ClickToCopy
+          className="hover:underline cursor-pointer"
+          text={item[language]}
+        />
       </p>
     );
   }
@@ -69,12 +81,22 @@ export function ItemCard({ id, item, currentLanguage, languageList }) {
     );
   }
 
+  if (!id || !item ) {
+    return (
+      <div className="w-full rounded overflow-hidden h-60 animate-pulse bg-orange-100 dark:bg-zinc-800 dark:text-zinc-200 flex flex-col justify-between border border-stone-500/30 z-20">
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full rounded overflow-hidden drop-shadow-md bg-orange-100 dark:bg-zinc-900/50 dark:text-zinc-200 flex flex-col justify-between border border-stone-500/30 z-20" key={id}>
+    <div
+      className={`w-full rounded overflow-hidden drop-shadow-md bg-orange-100 dark:bg-zinc-800 dark:text-zinc-200 flex flex-col justify-between border border-stone-500/30 z-20 ${additionalInfo ? "" : "animate-pulse"}`}
+      key={id}
+    >
       <div className="flex mx-4 mt-4 mb-2 grow">
         {additionalInfo ? (
           <Image
-            src={`https://beta.xivapi.com/api/1/asset/${additionalInfo['fields']["Icon"]['path']}?format=png`}
+            src={`https://beta.xivapi.com/api/1/asset/${additionalInfo["fields"]["Icon"]["path"]}?format=png`}
             alt={item[currentLanguage]}
             width={50}
             height={50}
@@ -87,8 +109,8 @@ export function ItemCard({ id, item, currentLanguage, languageList }) {
           {item[currentLanguage]}
         </div>
       </div>
-      <span className="bg-stone-700 text-stone-300 w-full text-xs font-semibold uppercase tabular-nums inline-block mb-2 px-2 py-1">
-        ITEM LEVEL {additionalInfo ? additionalInfo["fields"]["LevelItem"].value : "..." }
+      <span className="bg-stone-700 text-stone-300 dark:bg-zinc-950/50 dark:text-zinc-300 w-full text-xs font-semibold uppercase tabular-nums inline-block mb-2 px-2 pb-1 pt-0.5 font-wide min-h-6">
+        {additionalInfo ? `ITEM LEVEL ${additionalInfo["fields"]["LevelItem"].value}` : ""}
       </span>
       <div className="px-4 grow ">
         {languageList.map((language) => {
@@ -96,8 +118,6 @@ export function ItemCard({ id, item, currentLanguage, languageList }) {
             return languageListing(language);
           }
         })}
-
-        {additionalInfo ? <ClickToCopy className="hover:underline cursor-pointer" text={additionalInfo["ID"]} /> : <p>...</p>}
       </div>
       {/* footer with two small buttons */}
       <div className="border-t border-zinc-200 dark:border-zinc-700 flex justify-items-stretch mt-2 flex-none">

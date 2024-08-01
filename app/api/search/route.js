@@ -30,11 +30,16 @@ export async function GET(request) {
       })
     }))
 
-    // Split it into pages of 20 items
-    const pageItems = Object.fromEntries(Object.entries(filteredItems).slice((page - 1) * 20, page * 20))
+    // Split it into pages of 18 items
+    // return an item with results, currentPage, and totalPages
+    const pageItems = Object.fromEntries(Object.entries(filteredItems).slice((page - 1) * 18, page * 18))
 
-    // Return the filtered items as an array
-    return NextResponse.json(pageItems)
+    return NextResponse.json({
+      results: pageItems,
+      currentPage: page,
+      totalPages: Math.ceil(Object.keys(filteredItems).length / 18)
+    })
+
   } catch (error) {
     console.log('Error loading search results in!')
     return new NextResponse(error)

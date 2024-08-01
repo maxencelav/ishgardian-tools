@@ -4,6 +4,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
 import { RadioGroup } from "@headlessui/react";
 import { ItemCard } from '@/components/ItemCard';
+import Link from 'next/link';
 
 export default function Home() {
   "use client";
@@ -13,37 +14,51 @@ export default function Home() {
   const [searchResults, setSearchResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchParam, setSearchParam] = useState('');
-
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const handleInputChange = async (e) => {
-    // Set the search param state
     const newSearchParam = e.target.value;
     setSearchParam(newSearchParam);
 
-    // Update the URL
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set('search', newSearchParam);
     window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`);
 
-    // Search for the new value
-    getResults(e.target.value);
+    getResults(newSearchParam, 1);
   };
 
-
-const getResults = async (searchParam) => {
+  const getResults = async (searchParam, page) => {
     setLoading(true);
 
     try {
-        const response = await fetch(`api/search?query=${searchParam}&languages=en,de,fr,ja&page=1`);
-        const data = await response.json();
+      const response = await fetch(`api/search?query=${searchParam}&languages=en,de,fr,ja&page=${page}`);
 
-        setSearchResults(data);
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const text = await response.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (error) {
+        throw new Error('Invalid JSON response');
+      }
+
+      setSearchResults(data.results);
+      setTotalPages(data.totalPages);
+      setLoading(false);
     } catch (error) {
-        setLoading(false);
+      console.error('Error loading search results:', error);
+      setLoading(false);
     }
-};
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    getResults(searchParam, newPage);
+  };
 
   // load the search param from the URL on page load
   useEffect(() => {
@@ -53,12 +68,34 @@ const getResults = async (searchParam) => {
     getResults(searchValue);
   }, []);
 
+  function Pagination() {
+    return (
+      <div className="text-center font-semibold flex justify-center gap-4 text-white dark:text-zinc-500">
+        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} className="disabled:opacity-50 disabled:cursor-not-allowed">
+          ←
+        </button>
+
+        <span>Page {currentPage} of {totalPages}</span>
+
+        <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}
+          className="disabled:opacity-50 disabled:cursor-not-allowed">
+          →
+        </button>
+      </div>
+    );
+  }
 
   function SearchResults({ results }) {
     if (loading) {
       return (
         <div className="mt-10 container mx-auto text-center font-semibold text-zinc-500 w-full">
-          Loading...
+          <Pagination />
+          {/* display twenty empty item while loading */}
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 mx-auto p-4">
+            {[...Array(18)].map((_, i) => (
+              <ItemCard key={i} currentLanguage={currentLanguage} languageList={languageList} />
+            ))}
+          </div>
         </div>
       );
     } else if (!results || results == null || Object.keys(results).length === 0) {
@@ -76,8 +113,8 @@ const getResults = async (searchParam) => {
     else if (typeof results === 'object' && Object.keys(results).length > 0) {
       return (<div className="mt-10 container mx-auto">
         {/* center text with number of results */}
-        <div className="text-center font-semibold text-zinc-500">
-          {Object.keys(results).length} results
+        <div className="text-center font-semibold text-zinc-500 flex justify-center gap-4">
+          <Pagination />
         </div>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 mx-auto p-4">
           {
@@ -100,9 +137,15 @@ const getResults = async (searchParam) => {
     }
   }
 
+  // base
   return (
-    <main className="bg-gradient-to-b from-blue-500 to-blue-900 dark:from-gray-800 dark:to-gray-900 min-h-screen flex items-center justify-center flex-col font-sans">
-  
+    <main className="bg-gradient-to-b from-blue-500 to-blue-900 dark:from-gray-800 dark:to-gray-900 min-h-screen flex items-center justify-center flex-col font-sans bg-fixed bg-cover bg-center pb-10">
+      <h1 className="text-4xl font-header text-white mt-10">
+        <Link href="/">
+          Ishgardian Tools
+          <sub className="text-base ml-1">Search (beta)</sub>
+        </Link>
+      </h1>
       <form
         className="sm:mx-auto mt-10 sm:w-full sm:flex flex-col items-center max-w-screen-sm "
         onSubmit={(e) => e.preventDefault()}
