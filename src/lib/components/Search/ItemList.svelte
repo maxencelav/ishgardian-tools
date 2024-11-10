@@ -12,10 +12,6 @@
         de: 'German',
         ja: 'Japanese',
     };
-
-    $: {
-        console.log(items);
-    }
 </script>
 
 {#if items.length > 0}

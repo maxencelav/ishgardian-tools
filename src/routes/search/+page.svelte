@@ -15,7 +15,7 @@
             fetching = true; // Start fetching
             try {
                 const response = await fetch(
-                    `https://beta.xivapi.com/api/1/search?sheets=Item&query=(Name@en~"${encodeURIComponent(query)}" Name@ja~"${encodeURIComponent(query)}" Name@fr~"${encodeURIComponent(query)}" Name@de~"${encodeURIComponent(query)}")&fields=Name@lang(ja),Name@lang(en),Name@lang(fr),Name@lang(de),Icon,LevelItem`,
+                    `https://beta.xivapi.com/api/1/search?sheets=Item&query=(Name@en~"${encodeURIComponent(query)}" Name@ja~"${encodeURIComponent(query)}" Name@fr~"${encodeURIComponent(query)}" Name@de~"${encodeURIComponent(query)}")&fields=Name@lang(ja),Name@lang(en),Name@lang(fr),Name@lang(de),Icon,LevelItem,Description@lang(ja),Description@lang(en),Description@lang(fr),Description@lang(de)`
                 );
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
