@@ -18,11 +18,11 @@
     });
 </script>
 
-<div id="search-controls" class="flex gap-1 mb-2 gap-2 mb-4">
+<div id="search-controls" class="flex flex-col sm:flex-row gap-1 sm:gap-2 mb-2 sm:mb-4 w-full">
     <select
         bind:value={selectedLanguage}
         id="language-select"
-        class="px-5 py-3 text-zinc-700 bg-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:border-transparent"
+        class="px-3 sm:px-5 py-2 sm:py-3 text-zinc-700 bg-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:border-transparent"
     >
         {#each Object.entries(languages) as [code, name]}
             <option value={code}>{name}</option>
@@ -31,10 +31,11 @@
 
     <input
         id="search-input"
-        class="px-5 py-3 text-zinc-700 bg-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:border-transparent grow"
+        class="px-3 sm:px-5 py-2 sm:py-3 text-zinc-700 bg-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:border-transparent grow"
         type="text"
         bind:value={searchQuery}
         placeholder="Search items..."
         on:input={() => console.log("Search query:", searchQuery)}
     />
 </div>
+

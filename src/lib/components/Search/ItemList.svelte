@@ -15,7 +15,7 @@
 </script>
 
 {#if items.length > 0}
-    <ul class="grid grid-cols-[repeat(auto-fill,minmax(368px,1fr))] gap-4">
+    <ul class="grid sm:grid-cols-[repeat(auto-fill,minmax(368px,1fr))] gap-4">
         {#each items as item}
             <ItemCard {item} {selectedLanguage} {languages} />                
         {/each}
