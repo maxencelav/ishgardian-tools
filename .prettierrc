@@ -1,12 +1,4 @@
 {
-    "tabWidth": 4,
-    "useTabs": false,
-    "semi": true,
-    "singleQuote": true,
-    "svelteSortOrder": "options-scripts-markup-styles",
-    "svelteStrictMode": false,
-    "svelteAllowShorthand": true,
-    "plugins": ["prettier-plugin-svelte"],
-    "overrides": [{ "files": "*.svelte", "options": { "parser": "svelte" } }],
-    "printWidth": 9999
+  "tabWidth": 4,
+  "useTabs": false
 }
