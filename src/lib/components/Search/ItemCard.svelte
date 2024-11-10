@@ -26,7 +26,7 @@
     <div class="p-2">
         {#each Object.entries(languages) as [code, name]}
             <p class="text-zinc-700 dark:text-zinc-300 text-sm mb-1 select-none flex items-start">
-                <span class="bg-zinc-100 text-zinc-800 text-xs inline-block text-center w-5 mr-2 py-0.5 rounded dark:bg-zinc-700 dark:text-zinc-300 select-none">
+                <span class="bg-zinc-500/50 text-zinc-800 text-xs inline-block text-center w-5 mr-2 py-0.5 rounded dark:bg-zinc-700 dark:text-zinc-300 select-none">
                     {code[0].toUpperCase()}
                 </span>
                 <ClickToCopy 
