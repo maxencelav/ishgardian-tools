@@ -52,12 +52,6 @@
                 link="https://garlandtools.org/"
                 description="The original FFXIV database website."
             />
-
-            <HomeCard
-                title="Source code"
-                link="https://github.com/maxencelav/ishgardian-tools"
-                description="Go behind the scenes and see the source code."
-            />
         </div>
     </div>
 </main>
