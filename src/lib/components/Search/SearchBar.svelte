@@ -18,7 +18,7 @@
     });
 </script>
 
-<div id="search-controls" class="flex flex-col sm:flex-row gap-1 sm:gap-2 mb-2 sm:mb-4 w-full">
+<div id="search-controls" class="flex flex-col sm:flex-row gap-1 sm:gap-2 mb-2 sm:mb-4 w-full animate-slide-fade-in">
     <select
         bind:value={selectedLanguage}
         id="language-select"

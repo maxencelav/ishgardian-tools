@@ -45,7 +45,7 @@
         {/each}
     </div>
 
-    <p class="px-2 mb-2 text-zinc-700 dark:text-zinc-300 text-sm">
+    <p class="px-2 mb-2 text-zinc-700 dark:text-zinc-300 text-sm grow">
         {item.fields[`Description@lang(${selectedLanguage})`]}
     </p>
 

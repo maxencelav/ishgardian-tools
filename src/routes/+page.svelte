@@ -5,7 +5,7 @@
 <main
     class="min-h-screen flex items-center justify-center flex-col font-sans backdrop-filter backdrop-blur-lg bg-black/50 dark:bg-black/80 dark:text-white"
 >
-    <div class="max-w-md sm:max-w-xl md:max-w-2xl mx-auto p-2 sm:p-4">
+    <div class="max-w-md sm:max-w-xl md:max-w-2xl mx-auto p-2 sm:p-4 animate-slide-fade-in">
         <h1
             class="text-white mb-2 font-thin text-3xl sm:text-4xl md:text-6xl font-header tracking-tighter"
         >
