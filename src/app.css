@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-    --font-family-sans: 'IBM Plex Sans JP', sans-serif;
-    --font-family-serif: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
-    --font-family-wide: 'Michroma', sans-serif;
-    --font-family-header: 'Cinzel', serif;
+    --font-sans: 'IBM Plex Sans JP', sans-serif;
+    --font-serif: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
+    --font-wide: 'Michroma', sans-serif;
+    --font-header: 'Cinzel', serif;
 }
 
 @media (prefers-color-scheme: dark) {
