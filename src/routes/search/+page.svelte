@@ -1,6 +1,7 @@
 <script>
     import { page } from "$app/stores";
     import { onMount } from "svelte";
+    import { Toaster } from "svelte-hot-french-toast"
     import SearchBar from "$lib/components/Search/SearchBar.svelte";
     import ItemList from "$lib/components/Search/ItemList.svelte";
 
@@ -70,6 +71,7 @@
 <main
     class="backdrop-filter backdrop-blur-lg bg-black/50 dark:bg-black/80 min-h-screen flex-col font-sans bg-fixed bg-cover bg-center pb-10"
 >
+    <Toaster />
     <h1
         class="font-header font-medium text-white w-full bg-black py-1 px-2 flex items-between"
     >

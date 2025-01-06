@@ -1,4 +1,6 @@
 <script>
+    import toast from "svelte-hot-french-toast"
+
     export let text = "";
     export let className = ""; // Accept a class name as a prop, if needed.
 </script>
@@ -9,19 +11,11 @@
         navigator.clipboard
             .writeText(text)
             .then(() => {
-                alert(`Copied "${text}" to your clipboard.`);
-                // If you have a toast library, you could use it here instead of alert
-                // toast.success(`Copied ${text} to your clipboard.`, {
-                //   position: "bottom-left",
-                //   autoClose: 2000,
-                //   hideProgressBar: true,
-                //   closeOnClick: true,
-                //   pauseOnHover: true,
-                //   draggable: true,
-                // });
+                toast.success( `Copied "${text}" to your clipboard.`);
             })
             .catch((error) => {
                 console.error("Failed to copy text: ", error);
+                alert("Failed to copy text: ", error);
             });
     }}
 >

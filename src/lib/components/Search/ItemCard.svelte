@@ -5,7 +5,6 @@
     export let item;
     export let selectedLanguage = "en";
     export let languages = { en: "English", jp: "Japanese" }; // Define or receive the languages object
-    console.log(item);
 </script>
 
 <li
