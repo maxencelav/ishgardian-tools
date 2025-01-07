@@ -16,9 +16,11 @@ selectedLanguage.subscribe((value) => {
     }
 });
 
-// Listen for changes to the selectedLanguage store to update the variable if the user changes the language in a different tab
-window.addEventListener('storage', (event) => {
-    if (event.key === 'selectedLanguage') {
-        selectedLanguage.set(event.newValue);
-    }
-});
+if (browser) {
+    // Listen for changes to the selectedLanguage store to update the variable if the user changes the language in a different tab
+    window.addEventListener('storage', (event) => {
+        if (event.key === 'selectedLanguage') {
+            selectedLanguage.set(event.newValue);
+        }
+    });
+}
