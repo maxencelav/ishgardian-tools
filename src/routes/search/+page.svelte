@@ -1,7 +1,7 @@
 <script>
     import { page } from "$app/stores";
     import { onMount } from "svelte";
-    import { Toaster } from "svelte-hot-french-toast"
+    import { Toaster } from "svelte-hot-french-toast";
     import Navbar from "$lib/components/Navbar.svelte";
     import SearchBar from "$lib/components/Search/SearchBar.svelte";
     import ItemList from "$lib/components/Search/ItemList.svelte";
@@ -20,8 +20,10 @@
             fetching = true; // Start fetching
             try {
                 const response = await fetch(
-                    `https://beta.xivapi.com/api/1/search?sheets=Item&query=(Name@en~"${encodeURIComponent(query)}" Name@ja~"${encodeURIComponent(query)}" Name@fr~"${encodeURIComponent(query)}" Name@de~"${encodeURIComponent(query)}")&fields=Name@lang(ja),Name@lang(en),Name@lang(fr),Name@lang(de),Icon,LevelItem,Description@lang(ja),Description@lang(en),Description@lang(fr),Description@lang(de)`, { headers });
-                     
+                    `https://beta.xivapi.com/api/1/search?sheets=Item&query=(Name@en~"${encodeURIComponent(query)}" Name@ja~"${encodeURIComponent(query)}" Name@fr~"${encodeURIComponent(query)}" Name@de~"${encodeURIComponent(query)}")&fields=Name@lang(ja),Name@lang(en),Name@lang(fr),Name@lang(de),Icon,LevelItem,Description@lang(ja),Description@lang(en),Description@lang(fr),Description@lang(de)`,
+                    { headers },
+                );
+
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
@@ -68,13 +70,18 @@
     }
 </script>
 
-<main
-    class="backdrop-filter backdrop-blur-lg bg-black/50 dark:bg-black/80 min-h-screen flex-col font-sans bg-fixed bg-cover bg-center pb-10"
->
+<main class="min-h-screen min-w-full flex flex-col w-full">
     <Toaster />
     <Navbar />
-    <div class="max-w-7xl mx-auto p-4">
+    <div class="max-w-7xl mx-auto p-4 grow h-full w-full flex flex-col items-center justify-center">
         <SearchBar bind:searchQuery />
-        <ItemList items={filteredItems} {searchQuery} {fetching} />
+        <div class="grow">
+            <ItemList items={filteredItems} {searchQuery} {fetching} />
+        </div>
+        <p
+            class="text-white font-light text-xs sm:text-sm text-center opacity-50 mt-8"
+        >
+            ALL FINAL FANTASY XIV CONTENT IS PROPERTY OF SQUARE ENIX CO., LTD.
+        </p>
     </div>
 </main>

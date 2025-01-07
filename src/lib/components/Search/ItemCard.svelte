@@ -14,7 +14,7 @@
     <div class="flex items-center gap-2 p-2">
         <img
             class="w-10 h-10 rounded"
-            src={`https://beta.xivapi.com/api/1/asset?path=${item.fields.Icon.path}&format=jpg`}
+            src={`https://beta.xivapi.com/api/1/asset?path=${item.fields.Icon.path}&format=webp`}
             alt={`Icon for ${item.fields["Name@lang(en)"]}`}
         />
         <h3>{item.fields[`Name@lang(${$selectedLanguage})`]}</h3>

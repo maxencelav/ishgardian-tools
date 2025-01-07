@@ -2,13 +2,8 @@
     import "../app.css";
 </script>
 
-<slot />
-
-<style>
-    :global(body) {
-        background-image: url("/img/ishgard.jpg");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-    }
-</style>
+<main
+    class="min-h-screen flex items-center justify-center flex-col font-sans text-black dark:text-white"   
+>   
+    <slot />
+</main>
