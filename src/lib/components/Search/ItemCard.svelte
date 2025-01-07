@@ -1,10 +1,11 @@
 <script>
     import ClickToCopy from "./ClickToCopy.svelte";
+    import { selectedLanguage } from "$lib/stores/settingsStore";
+    import { languages } from "$lib/constants";
+
 
     // Define any props or reactive variables needed
     export let item;
-    export let selectedLanguage = "en";
-    export let languages = { en: "English", jp: "Japanese" }; // Define or receive the languages object
 </script>
 
 <li
@@ -16,7 +17,7 @@
             src={`https://beta.xivapi.com/api/1/asset?path=${item.fields.Icon.path}&format=jpg`}
             alt={`Icon for ${item.fields["Name@lang(en)"]}`}
         />
-        <h3>{item.fields[`Name@lang(${selectedLanguage})`]}</h3>
+        <h3>{item.fields[`Name@lang(${$selectedLanguage})`]}</h3>
     </div>
 
     <p
@@ -46,7 +47,7 @@
     </div>
 
     <p class="px-2 mb-2 text-zinc-700 dark:text-zinc-300 text-sm grow">
-        {item.fields[`Description@lang(${selectedLanguage})`]}
+        {@html item.fields[`Description@lang(${$selectedLanguage})`].replace(/\n/g, '<br>')}
     </p>
 
     <div
@@ -71,7 +72,7 @@
         </a>
 
         <a
-            href={`https://ffxivteamcraft.com/db/${selectedLanguage}/item/${item.row_id}`}
+            href={`https://ffxivteamcraft.com/db/${$selectedLanguage}/item/${item.row_id}`}
             target="_blank"
             rel="noopener noreferrer"
             class="block grow text-center px-2 py-1 text-sm text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-900"

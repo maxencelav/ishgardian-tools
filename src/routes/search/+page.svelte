@@ -2,13 +2,13 @@
     import { page } from "$app/stores";
     import { onMount } from "svelte";
     import { Toaster } from "svelte-hot-french-toast"
+    import Navbar from "$lib/components/Navbar.svelte";
     import SearchBar from "$lib/components/Search/SearchBar.svelte";
     import ItemList from "$lib/components/Search/ItemList.svelte";
 
     let items = [];
     let searchQuery = "";
     let filteredItems = [];
-    let selectedLanguage = "en";
     let fetching = false;
 
     let headers = new Headers({
@@ -72,20 +72,9 @@
     class="backdrop-filter backdrop-blur-lg bg-black/50 dark:bg-black/80 min-h-screen flex-col font-sans bg-fixed bg-cover bg-center pb-10"
 >
     <Toaster />
-    <h1
-        class="font-header font-medium text-white w-full bg-black py-1 px-2 flex items-between"
-    >
-        <a href="/" class="text-white block hover:underline">
-            Ishgardian Tools
-        </a>
-        <!-- <button
-            class="text-white ms-auto block w-6 h-6 hover:bg-white/25 rounded-full text-center d-flex items-center justify-center"
-        >
-            ?
-        </button> -->
-    </h1>
+    <Navbar />
     <div class="max-w-7xl mx-auto p-4">
-        <SearchBar bind:searchQuery bind:selectedLanguage />
-        <ItemList items={filteredItems} {selectedLanguage} {searchQuery} {fetching} />
+        <SearchBar bind:searchQuery />
+        <ItemList items={filteredItems} {searchQuery} {fetching} />
     </div>
 </main>
