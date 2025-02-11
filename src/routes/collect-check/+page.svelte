@@ -3,36 +3,35 @@
   import { writable } from 'svelte/store';
   import Navbar from "$lib/components/Navbar.svelte";
 
-  let characterInputs = writable([{ id: '', info: null }]);
+  // Initialize with null or undefined
+  let characterInputs = writable(null);
   let dataType = writable('mounts');
   let results = writable(null);
   let loading = writable(false);
   let error = writable(null);
-  let theme = writable('light');
   let searchTerm = writable('');
 
   onMount(() => {
     const loadSavedData = () => {
       const savedCharacters = localStorage.getItem('ffxivCharacters');
       if (savedCharacters) {
-        characterInputs.set(JSON.parse(savedCharacters));
-      }
-
-      const savedTheme = localStorage.getItem('ffxivTheme');
-      if (savedTheme) {
-        theme.set(savedTheme);
+        try {
+          characterInputs.set(JSON.parse(savedCharacters));
+        } catch (e) {
+          console.error('Failed to parse saved characters', e);
+          // Optionally, reset to default or handle the error as needed
+          characterInputs.set([{ id: '', info: null }]);
+        }
+      } else {
+        // If nothing is in localStorage, set the default value
+        characterInputs.set([{ id: '', info: null }]);
       }
     };
 
     loadSavedData();
   });
 
-  $: if (typeof window !== 'undefined') {
-    document.body.setAttribute('data-bs-theme', $theme);
-    localStorage.setItem('ffxivTheme', $theme);
-  }
-
-  $: if (typeof window !== 'undefined') {
+  $: if (typeof window !== 'undefined' && $characterInputs) {
     localStorage.setItem('ffxivCharacters', JSON.stringify($characterInputs));
   }
 
@@ -164,13 +163,13 @@
               <div class="flex">
                 <input
                   type="text"
-                  class="form-input"
+                  class="form-input block w-full sm:text-sm border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-white dark:bg-gray-800 p-2"
                   bind:value={input.id}
                   on:input={(e) => handleCharacterIdChange(index, e.target.value)}
                   placeholder="Enter Lodestone ID"
                   required
                 />
-                <button type="button" class="btn btn-outline-danger" on:click={() => handleRemoveCharacter(index)}>Remove</button>
+                <button type="button" class="ml-2 border border-red-500 text-red-500 rounded px-2 py-1" on:click={() => handleRemoveCharacter(index)}>Remove</button>
               </div>
               {#if input.info}
                 <div class="flex items-center mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -180,12 +179,12 @@
               {/if}
             </div>
           {/each}
-          <button type="button" class="btn btn-secondary mb-3" on:click={handleAddCharacter}>Add Character</button>
+          <button type="button" class="mb-3 bg-gray-500 text-white rounded px-4 py-2" on:click={handleAddCharacter}>Add Character</button>
           <div class="mb-3">
-            <label for="dataType" class="form-label">Data Type:</label>
+            <label for="dataType" class="block text-sm font-medium text-gray-700">Data Type:</label>
             <select
               id="dataType"
-              class="form-select"
+              class="form-select block w-full mt-1 border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-white dark:bg-gray-800 p-2"
               bind:value={$dataType}
             >
               <option value="mounts">Mounts</option>
@@ -193,12 +192,12 @@
               <option value="orchestrions">Orchestrions</option>
             </select>
           </div>
-          <button type="submit" class="btn btn-primary" disabled={$loading}>
+          <button type="submit" class="bg-blue-500 text-white rounded px-4 py-2" disabled={$loading}>
             {$loading ? 'Checking...' : 'Check Missing Items'}
           </button>
         </form>
         {#if $error}
-          <p class="alert alert-danger mt-3">Error: {$error}</p>
+          <p class="mt-3 text-red-500">Error: {$error}</p>
         {/if}
         {#if $loading}
           <p class="mt-3">Loading...</p>
@@ -211,7 +210,7 @@
               <div class="mb-3">
                 <input
                   type="text"
-                  class="form-control search-input"
+                  class="block w-full sm:text-sm border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                   placeholder="Search items..."
                   bind:value={$searchTerm}
                 />
@@ -241,7 +240,7 @@
                       <td class="border border-gray-300 dark:border-gray-700 p-2">
                         <div class="flex items-center">
                           <img src={item.icon} alt={item.name} class="w-8 h-8 mr-2" />
-                          <a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a>
+                          <a href={item.url} target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">{item.name}</a>
                         </div>
                       </td>
                       {#each item.characters as character, index}
