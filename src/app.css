@@ -26,7 +26,7 @@
 
 html {
     --_bg_opacity: 0.25;
-    background-image: linear-gradient(180deg, rgba(0, 0, 0, var(--_bg_opacity)), rgba(0, 0, 0, var(--_bg_opacity))), url("/img/ishgard.svg");
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, var(--_bg_opacity)), rgba(0, 0, 0, var(--_bg_opacity))), url("/img/ishgard.png");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
