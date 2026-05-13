@@ -1,19 +1,5 @@
-<h1
-    class="font-header font-medium text-white w-full bg-black py-1 px-2 flex items-between sticky top-0 z-30"
->
-    <a href="/" class="text-white block hover:underline"> Ishgardian Tools </a>
-
-    <!-- <div class="flex items-center gap-1 ms-auto">
-        <a
-            href="/settings"
-            class="text-white ms-auto block w-6 h-6 hover:bg-white/25 rounded-full text-center d-flex items-center justify-center"
-        >
-            ⚙️
-        </a>
-        <button
-            class="text-white ms-auto block w-6 h-6 hover:bg-white/25 rounded-full text-center d-flex items-center justify-center"
-        >
-            ?
-        </button>
-    </div> -->
-</h1>
+<wa-card appearance="filled-outlined" style="width:100%; padding:0.75rem 1rem;">
+    <div class="wa-cluster wa-align-items-center wa-justify-content-space-between" style="width:100%;">
+        <a href="/" class="wa-heading-s">Ishgardian Tools</a>
+    </div>
+</wa-card>

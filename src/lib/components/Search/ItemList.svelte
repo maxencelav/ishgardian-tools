@@ -7,13 +7,13 @@
 </script>
 
 {#if items.length > 0}
-    <ul class="grid sm:grid-cols-[repeat(auto-fill,minmax(368px,1fr))] gap-4">
+    <div class="wa-grid wa-gap-4xl" style="--min-column-size: 30ch; width:100%;">
         {#each items as item}
-            <ItemCard {item} />                
+            <ItemCard {item} />
         {/each}
-    </ul>
+    </div>
 {:else}
     {#if searchQuery && !fetching}
-        <p class="text-center text-stone-300 dark:text-zinc-300">No items found for "{searchQuery}".</p>
+        <p class="wa-caption-s" style="text-align:center;">No items found for "{searchQuery}".</p>
     {/if}
 {/if}

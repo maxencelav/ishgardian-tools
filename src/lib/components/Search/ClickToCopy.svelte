@@ -1,23 +1,17 @@
 <script>
-    import toast from "svelte-hot-french-toast"
-
     export let text = "";
-    export let className = ""; // Accept a class name as a prop, if needed.
+    export let copyLabel = "Copy";
+    export let successLabel = "Copied!";
+    export let errorLabel = "Copy failed";
 </script>
 
-<button
-    class={className}
-    on:click={() => {
-        navigator.clipboard
-            .writeText(text)
-            .then(() => {
-                toast.success( `Copied "${text}" to your clipboard.`);
-            })
-            .catch((error) => {
-                console.error("Failed to copy text: ", error);
-                alert("Failed to copy text: ", error);
-            });
-    }}
+<wa-copy-button
+    value={text}
+    copy-label={copyLabel}
+    success-label={successLabel}
+    error-label={errorLabel}
 >
-    {text}
-</button>
+    <wa-button appearance="plain" size="s">
+        {text}
+    </wa-button>
+</wa-copy-button>

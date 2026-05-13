@@ -2,34 +2,23 @@
     import { onMount } from "svelte";
     import { selectedLanguage } from "$lib/stores/settingsStore";
     import { languages } from "$lib/constants";
-    
-    export let searchQuery = ""; // Added default value
 
-    // On page load, focus the search input
+    export let searchQuery = "";
+
     onMount(() => {
-        const searchInput = document.querySelector("#search-input");
-        searchInput.focus();
+        const searchInput = document.querySelector("wa-input");
+        if (searchInput) searchInput.focus();
     });
 </script>
 
-<div id="search-controls" class="flex flex-col sm:flex-row gap-1 sm:gap-2 mb-2 sm:mb-4 w-full animate-slide-fade-in">
-    <select
-        bind:value={$selectedLanguage}
-        id="language-select"
-        class="px-3 sm:px-5 py-2 sm:py-3 text-zinc-700 bg-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:border-transparent"
-    >
-        {#each Object.entries(languages) as [code, name]}
-            <option value={code}>{name}</option>
-        {/each}
-    </select>
-
-    <input
-        id="search-input"
-        class="px-3 sm:px-5 py-2 sm:py-3 text-zinc-700 bg-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:border-transparent grow"
-        type="text"
-        bind:value={searchQuery}
-        placeholder="Search items..."
-        on:input={() => console.log("Search query:", searchQuery)}
-    />
-</div>
+<wa-input
+    id="search-input"
+    label="Search items"
+    placeholder="Search items..."
+    appearance="filled"
+    value={searchQuery}
+    on:input={(event) => (searchQuery = event.target.value)}
+>
+    <wa-icon slot="start" name="magnifying-glass" variant="solid"></wa-icon>
+</wa-input>
 

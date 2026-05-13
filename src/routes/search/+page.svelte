@@ -1,8 +1,5 @@
 <script>
     import { page } from "$app/stores";
-    import { onMount } from "svelte";
-    import { Toaster } from "svelte-hot-french-toast";
-    import Navbar from "$lib/components/Navbar.svelte";
     import SearchBar from "$lib/components/Search/SearchBar.svelte";
     import ItemList from "$lib/components/Search/ItemList.svelte";
 
@@ -70,18 +67,11 @@
     }
 </script>
 
-<main class="min-h-screen min-w-full flex flex-col w-full">
-    <Toaster />
-    <Navbar />
-    <div class="max-w-7xl mx-auto p-4 grow h-full w-full flex flex-col items-center justify-center">
+<main style="min-height:100vh; width:100%;">
+    <div class="wa-stack wa-gap-4xl" style="max-width:88rem; margin-inline:auto; width:100%; padding:1.5rem;">
         <SearchBar bind:searchQuery />
-        <div class="grow">
+        <div class="wa-stack wa-gap-3xl" style="width:100%;">
             <ItemList items={filteredItems} {searchQuery} {fetching} />
         </div>
-        <p
-            class="text-white font-light text-xs sm:text-sm text-center opacity-50 mt-8"
-        >
-            ALL FINAL FANTASY XIV CONTENT IS PROPERTY OF SQUARE ENIX CO., LTD.
-        </p>
     </div>
 </main>

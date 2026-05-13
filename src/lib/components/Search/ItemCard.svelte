@@ -1,92 +1,84 @@
 <script>
-    import ClickToCopy from "./ClickToCopy.svelte";
+    import '@awesome.me/webawesome/dist/components/dropdown/dropdown.js';
+
     import { selectedLanguage } from "$lib/stores/settingsStore";
     import { languages } from "$lib/constants";
 
-
-    // Define any props or reactive variables needed
     export let item;
+
+    function handleSelect(event) {
+        console.log('Selected value:', event.detail.item.value);
+        switch (event.detail.item.value) {
+            case 'garland-tools':
+                window.open(`https://garlandtools.org/db/#item/${item.row_id}`, '_blank');
+                break;
+            case 'cg-wiki':
+                window.open(`https://ffxiv.consolegameswiki.com/wiki/${item.fields["Name@lang(en)"]}`, '_blank');
+                break;
+            case 'teamcraft':
+                window.open(`https://ffxivteamcraft.com/db/${$selectedLanguage}/item/${item.row_id}`, '_blank');
+                break;
+            case 'universalis':
+                window.open(`https://universalis.app/market/${item.row_id}`, '_blank');
+                break;
+        }
+    }
 </script>
 
-<li
-    class="rounded overflow-hidden drop-shadow-md bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-200 flex flex-col border border-zinc-500/30 z-20 w-full"
->
-    <div class="flex items-center gap-2 p-2">
-        <img
-            class="w-10 h-10 rounded"
-            src={`https://beta.xivapi.com/api/1/asset?path=${item.fields.Icon.path}&format=webp`}
-            alt={`Icon for ${item.fields["Name@lang(en)"]}`}
-        />
-        <h3>{item.fields[`Name@lang(${$selectedLanguage})`]}</h3>
+<wa-card appearance="filled-outlined">
+    <div class="wa-cluster wa-align-items-center wa-gap-s" slot="header">
+        <wa-avatar 
+            image={`https://beta.xivapi.com/api/1/asset?path=${item.fields.Icon.path}&format=webp`}
+            shape="rounded"
+            label="Icon for {item.fields['Name@lang(en)']}"
+            loading="lazy"
+        ></wa-avatar>
+        <span class="wa-heading-s">{item.fields[`Name@lang(${$selectedLanguage})`]}</span>
     </div>
+    <wa-dropdown on:wa-select={handleSelect} slot="header-actions">
+        <wa-button slot="trigger" size="xs" appearance="plain">
+            <wa-icon name="ellipsis" label="Actions"></wa-icon>
+        </wa-button>
 
-    <p
-        class="bg-zinc-200 text-zinc-600 dark:bg-zinc-950/50 dark:text-zinc-300 w-full text-xs uppercase tabular-nums inline-block px-2 pb-0.5 font-wide mb-2"
-    >
-        ITEM LEVEL {item.fields.LevelItem.value}
-    </p>
+        <wa-dropdown-item href={`https://garlandtools.org/db/#item/${item.row_id}`} target="_blank" value="garland-tools">
+            Open in Garland Tools
+        </wa-dropdown-item>
+        <wa-dropdown-item href={`https://ffxiv.consolegameswiki.com/wiki/${item.fields["Name@lang(en)"]}`} target="_blank" value="cg-wiki">
+            Open in CG Wiki
+        </wa-dropdown-item>
+        <wa-dropdown-item href={`https://ffxivteamcraft.com/db/${$selectedLanguage}/item/${item.row_id}`} target="_blank" value="teamcraft">
+            Open in Teamcraft
+        </wa-dropdown-item>
+        <wa-dropdown-item href={`https://universalis.app/market/${item.row_id}`} target="_blank" value="universalis">
+            Open in Universalis
+        </wa-dropdown-item>
+    </wa-dropdown>
 
-    <div class="px-2 text-xs mb-1">
+    <span class="wa-caption-s">ITEM LEVEL {item.fields.LevelItem.value}</span>
+
+    <div class="wa-stack wa-gap-0">
         {#each Object.entries(languages) as [code, name]}
-            <p
-                class="text-zinc-700 dark:text-zinc-300 mb-1 select-none flex items-start"
-            >
-                <span
-                    class="bg-zinc-300 text-zinc-800 inline-block text-center w-5 mr-2 py-0.5 rounded dark:bg-zinc-700 dark:text-zinc-300 select-none"
+            <div class="wa-cluster wa-align-items-center" style="width:100%;">
+                <span class="wa-caption-s wa-fw-bold">{code[0].toUpperCase()}</span>
+                <wa-copy-button
+                    value={item.fields[`Name@lang(${code})`]}
+                    copy-label={`Copy "${item.fields[`Name@lang(${code})`]}" to clipboard`}
+                    success-label="Copied!"
+                    error-label="Copy failed"
                 >
-                    {code[0].toUpperCase()}
-                </span>
-                <ClickToCopy
-                    text={item.fields[`Name@lang(${code})`]}
-                    className="hover:underline cursor-pointer text-start mt-0.5"
-                >
-                    {name}
-                </ClickToCopy>
-            </p>
+                    <wa-button
+                        appearance="plain"
+                        size="xs"
+                        style="width: 100%;--wa-form-control-padding-block: 0.25rem; --wa-form-control-padding-inline: 0.5rem;"
+                    >
+                        {item.fields[`Name@lang(${code})`]}
+                    </wa-button>
+                </wa-copy-button>
+            </div>
         {/each}
     </div>
 
-    <p class="px-2 mb-2 text-zinc-700 dark:text-zinc-300 text-sm grow">
+    <div class="wa-body-s">
         {@html item.fields[`Description@lang(${$selectedLanguage})`].replace(/\n/g, '<br>')}
-    </p>
-
-    <div
-        class="border-t border-zinc-500/30 flex justify-items-stretch text-xs grid-cols-4"
-    >
-        <a
-            href={`https://garlandtools.org/db/#item/${item.row_id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="block grow text-center px-2 py-1 text-sm text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-900"
-        >
-            Garland Tools
-        </a>
-
-        <a
-            href={`https://ffxiv.consolegameswiki.com/wiki/${item.fields["Name@lang(en)"]}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="block grow text-center px-2 py-1 text-sm text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-900"
-        >
-            CG Wiki
-        </a>
-
-        <a
-            href={`https://ffxivteamcraft.com/db/${$selectedLanguage}/item/${item.row_id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="block grow text-center px-2 py-1 text-sm text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-900"
-        >
-            Teamcraft
-        </a>
-
-        <a
-            href={`https://universalis.app/market/${item.row_id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="block grow text-center px-2 py-1 text-sm text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-900"
-        >
-            Universalis
-        </a>
     </div>
-</li>
+</wa-card>

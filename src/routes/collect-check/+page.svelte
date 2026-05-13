@@ -1,7 +1,6 @@
 <script>
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
-  import Navbar from "$lib/components/Navbar.svelte";
 
   // Initialize with null or undefined
   let characterInputs = writable(null);
@@ -151,72 +150,89 @@
   };
 </script>
 
-<main class="min-h-screen min-w-full flex flex-col w-full">
-  <Navbar />
-  <div class="mx-auto grow h-full w-full flex">
-    <div class="flex grow">
-      <div class="w-1/4 p-4 border-r border-gray-300 dark:border-gray-700">
-        <h1 class="text-2xl mb-4">FFXIV Collect Check<br><small>(in testing!)</small></h1>
-        <form on:submit|preventDefault={handleSubmit}>
+<main style="min-height:100vh; width:100%;">
+  <div class="wa-cluster wa-align-items-start wa-gap-xl" style="max-width:88rem; margin-inline:auto; width:100%; padding:1.5rem; align-items:flex-start;">
+    <wa-card appearance="filled-outlined" style="width:24rem; flex-shrink:0;">
+      <div class="wa-stack wa-gap-s" style="padding:1rem;">
+        <div>
+          <span class="wa-heading-l">FFXIV Collect Check</span>
+          <div class="wa-caption-s">(in testing!)</div>
+        </div>
+
+        <form on:submit|preventDefault={handleSubmit} class="wa-stack wa-gap-s">
           {#each $characterInputs as input, index}
-            <div class="mb-3">
-              <div class="flex">
-                <input
+            <wa-card appearance="filled-outlined" style="width:100%;">
+              <div class="wa-cluster wa-align-items-center wa-gap-s" style="padding:0.75rem;">
+                <wa-input
+                  label={`Lodestone ID ${index + 1}`}
                   type="text"
-                  class="form-input block w-full sm:text-sm border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-white dark:bg-gray-800 p-2"
-                  bind:value={input.id}
+                  value={input.id}
                   on:input={(e) => handleCharacterIdChange(index, e.target.value)}
                   placeholder="Enter Lodestone ID"
                   required
-                />
-                <button type="button" class="ml-2 border border-red-500 text-red-500 rounded px-2 py-1" on:click={() => handleRemoveCharacter(index)}>Remove</button>
+                  style="flex:1;"
+                ></wa-input>
+                <wa-button type="button" role="button" tabindex="0" appearance="plain" variant="danger" size="s" on:click={() => handleRemoveCharacter(index)}>
+                  Remove
+                </wa-button>
               </div>
+
               {#if input.info}
-                <div class="flex items-center mt-1 text-sm text-gray-500 dark:text-gray-400">
-                  <img src={input.info.avatar} alt={input.info.name} class="w-6 h-6 rounded-full mr-2" />
-                  <span>{input.info.name} - {input.info.server}</span>
+                <div class="wa-cluster wa-align-items-center wa-gap-s" style="padding:0 0.75rem 0.75rem;">
+                  <img src={input.info.avatar} alt={input.info.name} style="width:2rem; height:2rem; border-radius:999px;" />
+                  <div>
+                    <div class="wa-caption-s">{input.info.name}</div>
+                    <div class="wa-caption-xs">{input.info.server}</div>
+                  </div>
                 </div>
               {/if}
-            </div>
+            </wa-card>
           {/each}
-          <button type="button" class="mb-3 bg-gray-500 text-white rounded px-4 py-2" on:click={handleAddCharacter}>Add Character</button>
-          <div class="mb-3">
-            <label for="dataType" class="block text-sm font-medium text-gray-700">Data Type:</label>
-            <select
-              id="dataType"
-              class="form-select block w-full mt-1 border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-white dark:bg-gray-800 p-2"
-              bind:value={$dataType}
-            >
-              <option value="mounts">Mounts</option>
-              <option value="minions">Minions</option>
-              <option value="orchestrions">Orchestrions</option>
-            </select>
-          </div>
-          <button type="submit" class="bg-blue-500 text-white rounded px-4 py-2" disabled={$loading}>
+
+          <wa-button type="button" role="button" tabindex="0" appearance="accent" variant="brand" size="s" on:click={handleAddCharacter}>
+            Add Character
+          </wa-button>
+
+          <wa-select
+            label="Data Type"
+            appearance="filled"
+            value={$dataType}
+            on:input={(event) => ($dataType = event.target.value)}
+          >
+            <wa-option value="mounts">Mounts</wa-option>
+            <wa-option value="minions">Minions</wa-option>
+            <wa-option value="orchestrions">Orchestrions</wa-option>
+          </wa-select>
+
+          <wa-button type="submit" appearance="filled" variant="brand" size="l" disabled={$loading}>
             {$loading ? 'Checking...' : 'Check Missing Items'}
-          </button>
-        </form>
-        {#if $error}
-          <p class="mt-3 text-red-500">Error: {$error}</p>
-        {/if}
-        {#if $loading}
-          <p class="mt-3">Loading...</p>
-        {/if}
-      </div>
-      <div class="w-3/4 p-4">
-        {#if $results}
-          <div class="flex flex-col h-full">
-            <div class="sticky top-0 bg-white dark:bg-gray-800">
-              <div class="mb-3">
-                <input
-                  type="text"
-                  class="block w-full sm:text-sm border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                  placeholder="Search items..."
-                  bind:value={$searchTerm}
-                />
-              </div>
+          </wa-button>
+
+          {#if $error}
+            <div class="wa-caption-s" style="color:var(--wa-color-danger-60);">Error: {$error}</div>
+          {/if}
+
+          {#if $loading}
+            <div class="wa-cluster wa-align-items-center wa-gap-2xs">
+              <wa-progress-ring indeterminate></wa-progress-ring>
+              <span class="wa-caption-s">Loading...</span>
             </div>
-            <div class="overflow-y-auto flex-grow">
+          {/if}
+        </form>
+      </div>
+    </wa-card>
+
+    <div style="flex:1; width:100%;">
+        {#if $results}
+          <wa-card appearance="filled-outlined" style="width:100%;">
+            <div class="wa-stack wa-gap-s" style="padding:1rem;">
+              <wa-input
+                label="Search items"
+                appearance="filled"
+                value={$searchTerm}
+                on:input={(event) => ($searchTerm = event.target.value)}
+              ></wa-input>
+              <div class="overflow-y-auto" style="max-height:70vh; width:100%;">
               <table class="table-auto w-full border-collapse border border-gray-300 dark:border-gray-700">
                 <thead class="sticky top-0 bg-white dark:bg-gray-800">
                   <tr>
@@ -256,8 +272,8 @@
               </table>
             </div>
           </div>
+        </wa-card>
         {/if}
       </div>
     </div>
-  </div>
-</main>
+  </main>
