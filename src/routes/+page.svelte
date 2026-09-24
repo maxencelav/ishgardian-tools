@@ -37,12 +37,7 @@
             class="h-16 w-16 bg-white rounded-full block shrink-0"
         />
         <p>
-            We're still in development!<br />Feel free to answer our
-            <a
-                href="https://forms.gle/gLztQmJ3uw1xdL5XA"
-                class="underline"
-                target="_blank">survey</a
-            >, or reach out at
+            We're still in development!<br />Feel free to reach out at
             <a href="mailto:ishgardian.tools@pobox.com" class="underline">my email (ishgardian.tools@pobox.com)</a>
 
             to help me improve the website. 🙏
