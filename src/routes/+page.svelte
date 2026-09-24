@@ -1,3 +1,11 @@
+<svelte:head>
+    <title>Ishgardian Tools — FFXIV multi-language search</title>
+    <meta
+        name="description"
+        content="A multi-language search engine and toolkit for the Final Fantasy XIV MMORPG."
+    />
+</svelte:head>
+
 <div
     class="sm:max-w-xl md:max-w-2xl mx-auto p-2 px-4 sm:p-4 animate-slide-fade-in bg-black/30 backdrop-blur-xl sm:rounded-lg dark:bg-transparent dark:backdrop-filter-none"
 >

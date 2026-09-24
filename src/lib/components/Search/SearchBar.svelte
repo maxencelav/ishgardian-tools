@@ -29,7 +29,6 @@
         type="text"
         bind:value={searchQuery}
         placeholder="Search items..."
-        on:input={() => console.log("Search query:", searchQuery)}
     />
 </div>
 

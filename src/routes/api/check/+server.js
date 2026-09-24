@@ -1,9 +1,7 @@
 export const POST = async ({ request }) => {
     try {
         const { ids, dataType, language } = await request.json();
-        console.log('Received request:', { ids, dataType, language }); // Add logging
         const results = await checkMissingItems(ids, dataType, language);
-        console.log('Results:', results); // Add logging
         return new Response(JSON.stringify(results), { status: 200 });
     } catch (error) {
         console.error('Error in API route:', error); // Add logging

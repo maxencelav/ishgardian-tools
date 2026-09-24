@@ -46,8 +46,8 @@
         {/each}
     </div>
 
-    <p class="px-2 mb-2 text-zinc-700 dark:text-zinc-300 text-sm grow">
-        {@html item.fields[`Description@lang(${$selectedLanguage})`].replace(/\n/g, '<br>')}
+    <p class="px-2 mb-2 text-zinc-700 dark:text-zinc-300 text-sm grow whitespace-pre-line">
+        {item.fields[`Description@lang(${$selectedLanguage})`]}
     </p>
 
     <div

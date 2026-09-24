@@ -2,7 +2,7 @@ import { writable } from 'svelte/store';
 import { browser } from '$app/environment'; // Ensures code runs only in the browser
 
 const defaultLanguage = 'en';
-const supportedLanguages = ['en', 'fr', 'jp', 'de'];
+const supportedLanguages = ['en', 'fr', 'ja', 'de'];
 
 const initialLanguage = browser
     ? localStorage.getItem('selectedLanguage') || defaultLanguage
