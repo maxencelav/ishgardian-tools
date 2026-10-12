@@ -1,9 +1,15 @@
 <script>
     import "../app.css";
+    import Navbar from "$lib/components/Navbar.svelte";
+    import Footer from "$lib/components/Footer.svelte";
+    import { Toaster } from "svelte-hot-french-toast";
 </script>
 
-<main
-    class="min-h-screen flex items-center justify-center flex-col font-sans text-black dark:text-white"   
->   
-    <slot />
-</main>
+<Toaster />
+<div class="flex flex-col min-h-dvh">
+    <Navbar />
+    <main class="flex-1 flex flex-col">
+        <slot />
+    </main>
+    <Footer />
+</div>

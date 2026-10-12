@@ -1,7 +1,6 @@
 <script>
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
-  import Navbar from "$lib/components/Navbar.svelte";
   import { selectedLanguage } from "$lib/stores/settingsStore";
 
   // Initialize with null or undefined
@@ -162,8 +161,7 @@
   />
 </svelte:head>
 
-<main class="min-h-screen min-w-full flex flex-col w-full">
-  <Navbar />
+<div class="min-h-screen min-w-full flex flex-col w-full">
   <div class="w-full grow flex flex-col sm:flex-row">
     <div class="w-full sm:w-1/4 sm:shrink-0 p-4 border-b sm:border-b-0 sm:border-r border-zinc-500/30">
       <h1 class="text-2xl mb-4">FFXIV Collect Check<br><small>(in testing!)</small></h1>
@@ -268,4 +266,4 @@
       {/if}
     </div>
   </div>
-</main>
+</div>

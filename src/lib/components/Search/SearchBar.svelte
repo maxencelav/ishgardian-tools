@@ -1,34 +1,38 @@
 <script>
-    import { onMount } from "svelte";
-    import { selectedLanguage } from "$lib/stores/settingsStore";
-    import { languages } from "$lib/constants";
-    
-    export let searchQuery = ""; // Added default value
+    export let searchQuery = "";
+    let searchInput;
 
-    // On page load, focus the search input
-    onMount(() => {
-        const searchInput = document.querySelector("#search-input");
+    // Don't steal the focus as soon as the page loads.
+    // However, if typing with no focus, automatically focus the search input
+    function handleKeydown(event) {
+        if (event.defaultPrevented || event.isComposing) return;
+        if (event.ctrlKey || event.metaKey || event.altKey) return;
+        if (event.key.length !== 1) return; // printable characters only
+        const active = document.activeElement;
+        if (active && active !== document.body) return;
         searchInput.focus();
-    });
+    }
 </script>
 
-<div id="search-controls" class="flex flex-col sm:flex-row gap-1 sm:gap-2 mb-2 sm:mb-4 w-full animate-slide-fade-in">
-    <select
-        bind:value={$selectedLanguage}
-        id="language-select"
-        class="px-3 sm:px-5 py-2 sm:py-3 text-zinc-700 bg-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:border-transparent"
-    >
-        {#each Object.entries(languages) as [code, name]}
-            <option value={code}>{name}</option>
-        {/each}
-    </select>
+<svelte:window on:keydown={handleKeydown} />
 
+<form id="search-controls" action="/search" method="get" role="search" class="flex flex-col sm:flex-row gap-1 sm:gap-2 mb-2 sm:mb-4 w-full animate-slide-fade-in">
+
+    <label for="search-input" class="sr-only">Search items</label>
     <input
         id="search-input"
+        bind:this={searchInput}
         class="px-3 sm:px-5 py-2 sm:py-3 text-zinc-700 bg-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:border-transparent grow"
-        type="text"
+        type="search"
+        name="query"
         bind:value={searchQuery}
         placeholder="Search items..."
     />
-</div>
+    <button
+        type="submit"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 sm:px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:border-transparent cursor-pointer"
+    >
+        Search
+    </button>
+</form>
 
