@@ -1,13 +1,14 @@
 import { languages } from "$lib/constants";
-import { PUBLIC_XIVAPI_VERSION, PUBLIC_XIVAPI_SCHEMA } from "$env/static/public";
 
 const BASE_URL = "https://v2.xivapi.com/api";
 
-// Set in .env: the schema is pinned so field names don't change under us after an
-// EXDSchema update, the game version can stay on "latest" so new items show up.
+// The schema is pinned so field names don't change under us after an EXDSchema
+// update, the game version can stay on "latest" so new items show up.
+// Version: "latest" or a version name such as "7.56x1".
+// Schema: "exdschema@2:rev:<commit hash>".
 // See https://v2.xivapi.com/docs/guides/pinning/
-const VERSION = PUBLIC_XIVAPI_VERSION;
-const SCHEMA = PUBLIC_XIVAPI_SCHEMA;
+const VERSION = "latest";
+const SCHEMA = "exdschema@2:rev:e773c41";
 
 const codes = Object.keys(languages);
 
