@@ -1,5 +1,13 @@
-<h1
-    class="font-header font-medium text-white w-full bg-black py-1 px-2 flex items-between sticky top-0 z-30"
+<script>
+    import LanguageSelect from "$lib/components/LanguageSelect.svelte";
+</script>
+
+<header
+    class="font-medium text-white w-full bg-black py-1 px-2 flex justify-between items-center sticky top-0 z-30"
 >
-    <a href="/" class="text-white block hover:underline"> Ishgardian Tools </a>
-</h1>
+    <nav>
+        <a href="/" class="text-white block hover:underline">Ishgardian Tools</a>
+    </nav>
+
+    <LanguageSelect />
+</header>

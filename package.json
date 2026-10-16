@@ -4,6 +4,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite dev",
+        "dev:host": "vite dev --host",
         "build": "vite build",
         "preview": "vite preview",
         "deploy": "vite build && wrangler deploy",
@@ -23,6 +24,7 @@
         "wrangler": "^4.138.0"
     },
     "dependencies": {
+        "@lucide/svelte": "^1.55.0",
         "@tailwindcss/vite": "^4.3.3",
         "svelte-hot-french-toast": "^4.1.0",
         "tailwindcss": "^4.3.3"
